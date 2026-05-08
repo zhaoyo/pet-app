@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+/* ─── Theme Variables ────────────────────────────────────── */
+:root, [data-theme="sakura"] {
+  --color-bg-body: #fef3f8;
+  --color-app-from: #fdf2f8;
+  --color-app-to: #f5f3ff;
+  --color-topbar-from: #f472b6;
+  --color-topbar-to: #c084fc;
+  --color-nav-active: #ec4899;
+}
+[data-theme="ocean"] {
+  --color-bg-body: #f0f8ff;
+  --color-app-from: #f0f9ff;
+  --color-app-to: #eff6ff;
+  --color-topbar-from: #38bdf8;
+  --color-topbar-to: #3b82f6;
+  --color-nav-active: #0284c7;
+}
+[data-theme="forest"] {
+  --color-bg-body: #f0faf0;
+  --color-app-from: #f0fdf4;
+  --color-app-to: #ecfdf5;
+  --color-topbar-from: #4ade80;
+  --color-topbar-to: #10b981;
+  --color-nav-active: #16a34a;
+}
+[data-theme="sunset"] {
+  --color-bg-body: #fff8f0;
+  --color-app-from: #fff7ed;
+  --color-app-to: #fff1f2;
+  --color-topbar-from: #fb923c;
+  --color-topbar-to: #f43f5e;
+  --color-nav-active: #ea580c;
+}
+[data-theme="lavender"] {
+  --color-bg-body: #f8f4ff;
+  --color-app-from: #f5f3ff;
+  --color-app-to: #faf5ff;
+  --color-topbar-from: #a78bfa;
+  --color-topbar-to: #d946ef;
+  --color-nav-active: #7c3aed;
+}
+[data-theme="midnight"] {
+  --color-bg-body: #0f1117;
+  --color-app-from: #0f172a;
+  --color-app-to: #1e1b4b;
+  --color-topbar-from: #312e81;
+  --color-topbar-to: #4c1d95;
+  --color-nav-active: #6366f1;
+}
+[data-theme="peach"] {
+  --color-bg-body: #fff5f0;
+  --color-app-from: #fff1f2;
+  --color-app-to: #fdf2f8;
+  --color-topbar-from: #fb7185;
+  --color-topbar-to: #f472b6;
+  --color-nav-active: #e11d48;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--color-bg-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pet canvas animations */
+@keyframes bounce-pet {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes dance {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-5deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.05); }
+}
+
+@keyframes sing {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-5px) scale(1.03); }
+  60% { transform: translateY(2px) scale(0.98); }
+}
+
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+@keyframes points-float {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-60px); }
+}
+
+.anim-bounce { animation: bounce-pet 1s ease-in-out infinite; }
+.anim-dance { animation: dance 0.6s ease-in-out infinite; }
+.anim-sing { animation: sing 0.8s ease-in-out infinite; }
+.points-float { animation: points-float 1.5s ease-out forwards; }
+
+/* ─── Mood-State Animations ─────────────────────────────── */
+@keyframes pet-sleep {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(4px) rotate(-4deg); }
+}
+@keyframes pet-walk {
+  0%, 100% { transform: translateX(0)   translateY(0)   rotate(0deg); }
+  25%      { transform: translateX(5px)  translateY(-4px) rotate(2deg); }
+  75%      { transform: translateX(-5px) translateY(-4px) rotate(-2deg); }
+}
+@keyframes pet-read {
+  0%, 100% { transform: rotate(0deg)   translateY(0); }
+  30%      { transform: rotate(-8deg)  translateY(2px); }
+  60%      { transform: rotate(-8deg)  translateY(-1px); }
+  80%      { transform: rotate(-5deg)  translateY(0); }
+}
+@keyframes pet-jump {
+  0%, 100% { transform: translateY(0)    scaleY(1) scaleX(1); }
+  10%      { transform: translateY(0)    scaleY(0.82) scaleX(1.12); }
+  40%      { transform: translateY(-26px) scaleY(1.08) scaleX(0.93); }
+  70%      { transform: translateY(-20px) scaleY(1.04); }
+  90%      { transform: translateY(0)    scaleY(0.88) scaleX(1.1); }
+}
+@keyframes pet-hum {
+  0%, 100% { transform: scale(1)    rotate(0deg); }
+  25%      { transform: scale(1.04) rotate(1.5deg); }
+  50%      { transform: scale(1.05) rotate(0deg); }
+  75%      { transform: scale(1.04) rotate(-1.5deg); }
+}
+@keyframes pet-play {
+  0%, 100% { transform: rotate(0deg)   scale(1); }
+  15%      { transform: rotate(-12deg) scale(1.06); }
+  35%      { transform: rotate(12deg)  scale(1.06); }
+  50%      { transform: rotate(-8deg)  scale(1.03); }
+  65%      { transform: rotate(8deg)   scale(1.03); }
+  85%      { transform: rotate(-3deg)  scale(1); }
+}
+@keyframes zzz-float {
+  0%   { opacity: 0.9; transform: translateY(0) scale(1); }
+  100% { opacity: 0;   transform: translateY(-32px) scale(1.3); }
+}
+
+.anim-sleep { animation: pet-sleep 2.5s ease-in-out infinite; }
+.anim-walk  { animation: pet-walk  1s   ease-in-out infinite; }
+.anim-read  { animation: pet-read  2.2s ease-in-out infinite; }
+.anim-jump  { animation: pet-jump  1.1s ease-in-out infinite; }
+.anim-hum   { animation: pet-hum   1.4s ease-in-out infinite; }
+.anim-play  { animation: pet-play  0.7s ease-in-out infinite; }
+.zzz-anim   { animation: zzz-float 2s   ease-out  infinite; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #f0a8c8; border-radius: 2px; }

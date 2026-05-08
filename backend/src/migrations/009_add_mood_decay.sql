@@ -1,0 +1,1 @@
+ALTER TABLE pets ADD COLUMN last_mood_update TEXT DEFAULT NULL;
