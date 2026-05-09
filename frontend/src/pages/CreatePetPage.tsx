@@ -5,13 +5,13 @@ import { usePetStore } from '../store/petStore';
 import { PET_NAMES, type PetType } from '../types/pet';
 import { getPetBaseSvg } from '../components/pet/petSvgData';
 
-// Shows just the head of the pet by cropping the SVG viewBox to the head region
+// Shows the full pet body
 function PetHeadAvatar({ type, size = 64 }: { type: PetType; size?: number }) {
   return (
     <svg
-      viewBox="100 110 200 160"
+      viewBox="0 0 400 500"
       width={size}
-      height={size}
+      height={size * 1.25}
       style={{ display: 'block' }}
       dangerouslySetInnerHTML={{ __html: getPetBaseSvg(type) }}
     />
@@ -66,8 +66,8 @@ export default function CreatePetPage() {
                 : 'border-gray-100 bg-white hover:border-pink-200'
             }`}
           >
-            <div className="rounded-full overflow-hidden bg-gradient-to-br from-amber-50 to-pink-50 w-14 h-14 flex items-center justify-center">
-              <PetHeadAvatar type={type} size={56} />
+            <div className="flex items-end justify-center" style={{height: 72}}>
+              <PetHeadAvatar type={type} size={52} />
             </div>
             <span className="text-xs text-gray-600 mt-1">{PET_NAMES[type]}</span>
           </button>
@@ -93,9 +93,7 @@ export default function CreatePetPage() {
       {selectedType && (
         <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-4 mb-4 text-center">
           <div className="flex justify-center mb-2">
-            <div className="rounded-full overflow-hidden bg-white shadow-md w-24 h-24 flex items-center justify-center border-4 border-pink-200">
-              <PetHeadAvatar type={selectedType} size={96} />
-            </div>
+            <PetHeadAvatar type={selectedType} size={100} />
           </div>
           <p className="text-gray-600 text-sm font-medium">
             {name || '(还没有名字)'} · {PET_NAMES[selectedType]}

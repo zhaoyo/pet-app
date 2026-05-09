@@ -5,10 +5,10 @@ import { useAuthStore } from '../store/authStore';
 import { petApi } from '../api/petApi';
 import { inventoryApi } from '../api/shopApi';
 import PetCanvas from '../components/pet/PetCanvas';
-import { getPetBaseSvg } from '../components/pet/petSvgData';
 import ThemePicker from '../components/ui/ThemePicker';
 import type { Pet, ShopItem } from '../types/api';
 import { PET_NAMES, type PetType } from '../types/pet';
+import { getPetBaseSvg } from '../components/pet/petSvgData';
 
 const SLOT_LABELS: Record<string, string> = {
   hat: '帽子', glasses: '眼镜', top: '上衣', bottom: '裤子',
@@ -197,8 +197,8 @@ export default function HomePage() {
                   : 'bg-white text-gray-600 border border-pink-100'
               }`}
             >
-              <div className="w-6 h-6 rounded-full overflow-hidden bg-white/50 flex items-center justify-center flex-shrink-0">
-                <svg viewBox="100 110 200 160" width={24} height={24} dangerouslySetInnerHTML={{ __html: getPetBaseSvg(p.type as PetType) }} />
+              <div className="w-6 h-8 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <svg viewBox="0 0 400 500" width={24} height={30} dangerouslySetInnerHTML={{ __html: getPetBaseSvg(p.type as PetType) }} />
               </div>
               <span>{p.name}</span>
             </button>
@@ -230,13 +230,13 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Avatar */}
-          <div className="relative mb-2">
+          {/* Avatar (real photo) — top center */}
+          <div className="relative mb-3">
             {pet.avatar_url ? (
-              <img src={pet.avatar_url} className="w-16 h-16 rounded-full object-cover border-2 border-white shadow" alt="头像" />
+              <img src={pet.avatar_url} className="w-20 h-20 rounded-full object-cover border-3 border-white shadow-md" alt="头像" />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-50 to-pink-100 flex items-center justify-center border-2 border-white shadow overflow-hidden">
-                <svg viewBox="100 110 200 160" width={64} height={64} dangerouslySetInnerHTML={{ __html: getPetBaseSvg(pet.type as PetType) }} />
+              <div className="w-20 h-20 rounded-full bg-pink-200 flex items-center justify-center border-3 border-white shadow-md">
+                <span className="text-3xl">🐾</span>
               </div>
             )}
             <button
@@ -249,9 +249,9 @@ export default function HomePage() {
           </div>
 
           <h2 className="text-xl font-bold text-gray-700">{pet.name}</h2>
-          <p className="text-sm text-gray-500">{PET_NAMES[pet.type as PetType]} · Lv.{pet.level}</p>
+          <p className="text-sm text-gray-500 mb-1">{PET_NAMES[pet.type as PetType]} · Lv.{pet.level}</p>
 
-          {/* Pet SVG with equipment */}
+          {/* Pet cartoon figure — separate from avatar */}
           <PetCanvas pet={pet} equipment={equipment} animation={animation} size={220} />
 
           {/* Mood bar */}
