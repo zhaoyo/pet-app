@@ -1,0 +1,11 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "deploy": {
+    "port": 4000,
+    "healthcheck": {
+      "path": "/health"
+    }
+  }
+}
