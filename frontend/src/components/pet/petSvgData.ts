@@ -1,5 +1,257 @@
 import type { PetType } from '../../types/pet';
 
+// Extracted to top-level to avoid rolldown rc.17 template-literal parse bug
+// in very large object literals
+const THUNDER_SHEEP_SVG = `
+      <g id="body-tail">
+        <!-- 闪电尾巴球 -->
+        <polygon points="310,348 298,368 306,368 294,392 322,366 312,366"
+          fill="#FFD700" stroke="#E8A000" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="302" cy="372" r="10" fill="#FFE840" opacity="0.5"/>
+      </g>
+
+      <g id="body-feet">
+        <!-- 后腿 短粗，黄色蹄 -->
+        <ellipse cx="163" cy="418" rx="28" ry="34" fill="#F0F0F0"/>
+        <ellipse cx="237" cy="418" rx="28" ry="34" fill="#F0F0F0"/>
+        <!-- 蹄子 黄色 -->
+        <ellipse cx="163" cy="450" rx="26" ry="14" fill="#FFD700" stroke="#E8A000" stroke-width="1.2"/>
+        <line x1="163" y1="444" x2="163" y2="458" stroke="#E8A000" stroke-width="1.5"/>
+        <ellipse cx="237" cy="450" rx="26" ry="14" fill="#FFD700" stroke="#E8A000" stroke-width="1.2"/>
+        <line x1="237" y1="444" x2="237" y2="458" stroke="#E8A000" stroke-width="1.5"/>
+      </g>
+
+      <g id="body-lower">
+        <!-- 蓬松身体主体：多个叠加圆形模拟羊毛 -->
+        <ellipse cx="200" cy="340" rx="90" ry="80" fill="#EFEFEF"/>
+        <!-- 羊毛团簇 -->
+        <circle cx="148" cy="330" r="38" fill="#F8F8F8"/>
+        <circle cx="172" cy="308" r="34" fill="#F4F4F4"/>
+        <circle cx="200" cy="302" r="36" fill="#F8F8F8"/>
+        <circle cx="228" cy="308" r="34" fill="#F4F4F4"/>
+        <circle cx="252" cy="330" r="38" fill="#F8F8F8"/>
+        <circle cx="145" cy="358" r="30" fill="#EFEFEF"/>
+        <circle cx="255" cy="358" r="30" fill="#EFEFEF"/>
+        <!-- 肚子浅黄色 -->
+        <ellipse cx="200" cy="350" rx="50" ry="44" fill="#FFFBE8" opacity="0.9"/>
+      </g>
+
+      <g id="body-upper">
+        <!-- 左前腿（举起），黄蹄 -->
+        <ellipse cx="110" cy="285" rx="24" ry="42" fill="#F0F0F0" transform="rotate(-48,110,285)"/>
+        <ellipse cx="75" cy="244" rx="18" ry="12" fill="#FFD700" stroke="#E8A000" stroke-width="1.2" transform="rotate(-48,75,244)"/>
+        <!-- 右前腿（举起） -->
+        <ellipse cx="290" cy="285" rx="24" ry="42" fill="#F0F0F0" transform="rotate(48,290,285)"/>
+        <ellipse cx="325" cy="244" rx="18" ry="12" fill="#FFD700" stroke="#E8A000" stroke-width="1.2" transform="rotate(48,325,244)"/>
+      </g>
+
+      <g id="body-neck">
+        <ellipse cx="200" cy="280" rx="46" ry="28" fill="#F0F0F0"/>
+      </g>
+
+      <g id="body-head">
+        <!-- 耳朵（圆形，黄内） -->
+        <ellipse cx="108" cy="170" rx="34" ry="38" fill="#EFEFEF"/>
+        <ellipse cx="108" cy="172" rx="20" ry="24" fill="#FFD700"/>
+        <ellipse cx="292" cy="170" rx="34" ry="38" fill="#EFEFEF"/>
+        <ellipse cx="292" cy="172" rx="20" ry="24" fill="#FFD700"/>
+
+        <!-- 大圆头 白色 -->
+        <circle cx="200" cy="178" r="128" fill="#F8F8F8"/>
+
+        <!-- 头顶蓬松羊毛 -->
+        <circle cx="168" cy="62"  r="30" fill="#F4F4F4"/>
+        <circle cx="200" cy="52"  r="34" fill="#F8F8F8"/>
+        <circle cx="232" cy="62"  r="30" fill="#F4F4F4"/>
+        <circle cx="150" cy="82"  r="24" fill="#EFEFEF"/>
+        <circle cx="250" cy="82"  r="24" fill="#EFEFEF"/>
+
+        <!-- 闪电角（头顶中央，黄色，闪电形） -->
+        <polygon points="200,44 191,74 198,74 186,106 214,72 206,72"
+          fill="#FFD700" stroke="#E8A000" stroke-width="1.8" stroke-linejoin="round"/>
+
+        <!-- 脸部白色区 -->
+        <ellipse cx="200" cy="216" rx="62" ry="50" fill="#FFFBE8"/>
+
+        <!-- 鼻子 小椭圆 粉色 -->
+        <ellipse cx="200" cy="200" rx="10" ry="7" fill="#FFB0B8"/>
+        <!-- 嘴 W形微笑 -->
+        <path d="M188,212 Q195,220 200,214 Q205,220 212,212"
+          stroke="#888" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <g id="body-face">
+        <!-- 左眼 宝可梦大眼 蓝色虹膜 -->
+        <circle cx="163" cy="162" r="26" fill="white"/>
+        <circle cx="165" cy="165" r="18" fill="#3A7ACC"/>
+        <circle cx="165" cy="165" r="11" fill="#1A2A4A"/>
+        <circle cx="157" cy="156" r="7"  fill="white"/>
+        <circle cx="170" cy="161" r="3.5" fill="white" opacity="0.85"/>
+
+        <!-- 右眼 -->
+        <circle cx="237" cy="162" r="26" fill="white"/>
+        <circle cx="239" cy="165" r="18" fill="#3A7ACC"/>
+        <circle cx="239" cy="165" r="11" fill="#1A2A4A"/>
+        <circle cx="231" cy="156" r="7"  fill="white"/>
+        <circle cx="244" cy="161" r="3.5" fill="white" opacity="0.85"/>
+
+        <!-- 腮红 淡蓝色（像电气的感觉） -->
+        <ellipse cx="126" cy="198" rx="30" ry="18" fill="#A8D4FF" opacity="0.55"/>
+        <ellipse cx="274" cy="198" rx="30" ry="18" fill="#A8D4FF" opacity="0.55"/>
+
+        <!-- 左小蹄手（举起，黄色） -->
+        <ellipse cx="72" cy="234" rx="20" ry="16" fill="#FFD700" stroke="#E8A000" stroke-width="1.2"/>
+        <line x1="72" y1="228" x2="72" y2="242" stroke="#E8A000" stroke-width="1.5"/>
+
+        <!-- 右小蹄手 -->
+        <ellipse cx="328" cy="234" rx="20" ry="16" fill="#FFD700" stroke="#E8A000" stroke-width="1.2"/>
+        <line x1="328" y1="228" x2="328" y2="242" stroke="#E8A000" stroke-width="1.5"/>
+
+        <!-- 闪电腮纹（像皮卡丘的红圆腮，但这里是小闪电形纹路） -->
+        <polygon points="118,188 113,200 119,200 112,214 126,200 120,200"
+          fill="#FFE640" opacity="0.7" stroke="#E8A000" stroke-width="0.8" stroke-linejoin="round"/>
+        <polygon points="282,188 277,200 283,200 276,214 290,200 284,200"
+          fill="#FFE640" opacity="0.7" stroke="#E8A000" stroke-width="0.8" stroke-linejoin="round"/>
+      </g>
+    `;
+
+const BLOOM_SPRITE_SVG = `
+      <g id="body-tail">
+        <!-- 小卷藤蔓尾 -->
+        <path d="M296,374 Q338,340 330,300 Q324,278 308,274"
+          stroke="#4CAF50" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M296,374 Q336,342 328,302"
+          stroke="#80E080" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- 尾端小花蕾 -->
+        <circle cx="307" cy="270" r="12" fill="#FF9EC8"/>
+        <circle cx="307" cy="270" r="7"  fill="#FFE0EE"/>
+      </g>
+
+      <g id="body-feet">
+        <!-- 腿 浅绿 -->
+        <ellipse cx="163" cy="420" rx="28" ry="36" fill="#6DC86D"/>
+        <ellipse cx="237" cy="420" rx="28" ry="36" fill="#6DC86D"/>
+        <!-- 花形脚底 -->
+        <ellipse cx="163" cy="450" rx="30" ry="16" fill="#A8E6A8"/>
+        <circle cx="149" cy="447" r="6" fill="#FF9EC8"/>
+        <circle cx="163" cy="444" r="6" fill="#FF9EC8"/>
+        <circle cx="177" cy="447" r="6" fill="#FF9EC8"/>
+        <ellipse cx="237" cy="450" rx="30" ry="16" fill="#A8E6A8"/>
+        <circle cx="223" cy="447" r="6" fill="#FF9EC8"/>
+        <circle cx="237" cy="444" r="6" fill="#FF9EC8"/>
+        <circle cx="251" cy="447" r="6" fill="#FF9EC8"/>
+      </g>
+
+      <g id="body-lower">
+        <!-- 花瓣裙形身体 -->
+        <ellipse cx="200" cy="342" rx="90" ry="80" fill="#5CBB5C"/>
+        <!-- 花瓣裙边（5片花瓣围绕底部） -->
+        <ellipse cx="148" cy="400" rx="30" ry="20" fill="#FF9EC8" transform="rotate(-30,148,400)"/>
+        <ellipse cx="174" cy="414" rx="30" ry="20" fill="#FFB8D8" transform="rotate(-10,174,414)"/>
+        <ellipse cx="200" cy="418" rx="30" ry="20" fill="#FF9EC8"/>
+        <ellipse cx="226" cy="414" rx="30" ry="20" fill="#FFB8D8" transform="rotate(10,226,414)"/>
+        <ellipse cx="252" cy="400" rx="30" ry="20" fill="#FF9EC8" transform="rotate(30,252,400)"/>
+        <!-- 肚子浅色 -->
+        <ellipse cx="200" cy="332" rx="52" ry="56" fill="#A8E8A8" opacity="0.85"/>
+        <!-- 肚子中央花纹 -->
+        <circle cx="200" cy="330" r="16" fill="#80D880" opacity="0.6"/>
+        <circle cx="200" cy="330" r="8"  fill="#FF9EC8" opacity="0.7"/>
+      </g>
+
+      <g id="body-upper">
+        <!-- 左臂 叶片形 -->
+        <ellipse cx="112" cy="286" rx="26" ry="44" fill="#4CAF50" transform="rotate(-50,112,286)"/>
+        <ellipse cx="112" cy="286" rx="14" ry="30" fill="#80D880" transform="rotate(-50,112,286)"/>
+        <!-- 右臂 -->
+        <ellipse cx="288" cy="286" rx="26" ry="44" fill="#4CAF50" transform="rotate(50,288,286)"/>
+        <ellipse cx="288" cy="286" rx="14" ry="30" fill="#80D880" transform="rotate(50,288,286)"/>
+      </g>
+
+      <g id="body-neck">
+        <ellipse cx="200" cy="280" rx="48" ry="28" fill="#5CBB5C"/>
+        <ellipse cx="200" cy="276" rx="32" ry="20" fill="#A8E8A8" opacity="0.85"/>
+      </g>
+
+      <g id="body-head">
+        <!-- 叶片耳（扁菱形） -->
+        <ellipse cx="100" cy="158" rx="36" ry="52" fill="#4CAF50" transform="rotate(20,100,158)"/>
+        <ellipse cx="100" cy="158" rx="20" ry="34" fill="#80D880" transform="rotate(20,100,158)"/>
+        <ellipse cx="300" cy="158" rx="36" ry="52" fill="#4CAF50" transform="rotate(-20,300,158)"/>
+        <ellipse cx="300" cy="158" rx="20" ry="34" fill="#80D880" transform="rotate(-20,300,158)"/>
+
+        <!-- 大圆头 绿色 -->
+        <circle cx="200" cy="180" r="128" fill="#6DC86D"/>
+
+        <!-- 头顶花冠（5片花瓣 + 中心） -->
+        <ellipse cx="200" cy="34"  rx="22" ry="34" fill="#FFD0E8"/>
+        <ellipse cx="164" cy="48"  rx="22" ry="34" fill="#FF9EC8" transform="rotate(-36,164,48)"/>
+        <ellipse cx="140" cy="82"  rx="22" ry="34" fill="#FFD0E8" transform="rotate(-72,140,82)"/>
+        <ellipse cx="236" cy="48"  rx="22" ry="34" fill="#FF9EC8" transform="rotate(36,236,48)"/>
+        <ellipse cx="260" cy="82"  rx="22" ry="34" fill="#FFD0E8" transform="rotate(72,260,82)"/>
+        <!-- 花冠中心黄色花蕊 -->
+        <circle cx="200" cy="72" r="22" fill="#FFE040"/>
+        <circle cx="200" cy="72" r="12" fill="#FFB800"/>
+        <!-- 花蕊小点 -->
+        <circle cx="193" cy="67" r="3" fill="#FF8800"/>
+        <circle cx="207" cy="67" r="3" fill="#FF8800"/>
+        <circle cx="200" cy="62" r="3" fill="#FF8800"/>
+        <circle cx="200" cy="78" r="3" fill="#FF8800"/>
+
+        <!-- 脸部浅色区 -->
+        <ellipse cx="200" cy="218" rx="64" ry="52" fill="#A8E8A8"/>
+
+        <!-- 花形小鼻 -->
+        <circle cx="200" cy="200" r="8"  fill="#FF9EC8"/>
+        <circle cx="200" cy="200" r="4"  fill="#FFE0EE"/>
+        <!-- 嘴 弧形微笑 -->
+        <path d="M188,214 Q200,226 212,214"
+          stroke="#3A7A3A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <g id="body-face">
+        <!-- 左眼 琥珀/棕金色虹膜 宝可梦风格 -->
+        <circle cx="162" cy="163" r="27" fill="white"/>
+        <circle cx="164" cy="166" r="19" fill="#C87A18"/>
+        <circle cx="164" cy="166" r="12" fill="#7A3A00"/>
+        <circle cx="156" cy="157" r="7"  fill="white"/>
+        <circle cx="169" cy="162" r="3.5" fill="white" opacity="0.85"/>
+
+        <!-- 右眼 -->
+        <circle cx="238" cy="163" r="27" fill="white"/>
+        <circle cx="240" cy="166" r="19" fill="#C87A18"/>
+        <circle cx="240" cy="166" r="12" fill="#7A3A00"/>
+        <circle cx="232" cy="157" r="7"  fill="white"/>
+        <circle cx="245" cy="162" r="3.5" fill="white" opacity="0.85"/>
+
+        <!-- 腮红 粉色 带小花纹 -->
+        <ellipse cx="122" cy="202" rx="30" ry="18" fill="#FF9EC8" opacity="0.45"/>
+        <circle cx="114" cy="200" r="4" fill="#FFB8D8" opacity="0.6"/>
+        <circle cx="122" cy="196" r="4" fill="#FFB8D8" opacity="0.6"/>
+        <circle cx="130" cy="200" r="4" fill="#FFB8D8" opacity="0.6"/>
+
+        <ellipse cx="278" cy="202" rx="30" ry="18" fill="#FF9EC8" opacity="0.45"/>
+        <circle cx="270" cy="200" r="4" fill="#FFB8D8" opacity="0.6"/>
+        <circle cx="278" cy="196" r="4" fill="#FFB8D8" opacity="0.6"/>
+        <circle cx="286" cy="200" r="4" fill="#FFB8D8" opacity="0.6"/>
+
+        <!-- 左手：叶片形手掌 -->
+        <ellipse cx="72" cy="232" rx="22" ry="18" fill="#4CAF50"/>
+        <ellipse cx="72" cy="232" rx="12" ry="10" fill="#80D880"/>
+        <ellipse cx="54" cy="218" rx="9"  ry="14" fill="#4CAF50" transform="rotate(-25,54,218)"/>
+        <ellipse cx="70" cy="212" rx="9"  ry="14" fill="#4CAF50" transform="rotate(-8,70,212)"/>
+        <ellipse cx="86" cy="214" rx="9"  ry="14" fill="#4CAF50" transform="rotate(10,86,214)"/>
+        <ellipse cx="99" cy="222" rx="8"  ry="13" fill="#4CAF50" transform="rotate(25,99,222)"/>
+
+        <!-- 右手：叶片形手掌 -->
+        <ellipse cx="328" cy="232" rx="22" ry="18" fill="#4CAF50"/>
+        <ellipse cx="328" cy="232" rx="12" ry="10" fill="#80D880"/>
+        <ellipse cx="301" cy="222" rx="8"  ry="13" fill="#4CAF50" transform="rotate(-25,301,222)"/>
+        <ellipse cx="314" cy="214" rx="9"  ry="14" fill="#4CAF50" transform="rotate(-10,314,214)"/>
+        <ellipse cx="330" cy="212" rx="9"  ry="14" fill="#4CAF50" transform="rotate(8,330,212)"/>
+        <ellipse cx="346" cy="218" rx="9"  ry="14" fill="#4CAF50" transform="rotate(25,346,218)"/>
+      </g>
+    `;
+
 /**
  * 卡通宠物SVG — 第一张参考图风格
  * 特征：大圆头(占60%)、小圆身体、短腿、黑色描边、大眼睛+高光、粉腮红
@@ -820,6 +1072,10 @@ export function getPetBaseSvg(type: PetType): string {
       </g>
     `,
   };
+
+  // Computed-key assignment to work around rolldown rc.17 bug with underscore object keys
+  (pets as any)['thunder_sheep'] = THUNDER_SHEEP_SVG;
+  (pets as any)['bloom_sprite'] = BLOOM_SPRITE_SVG;
 
   return pets[type] ?? pets.dog;
 }

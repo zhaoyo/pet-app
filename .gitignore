@@ -25,3 +25,13 @@ npm-debug.log*
 
 # OS
 .DS_Store
+
+# Screenshots and debug files (root level)
+/*.png
+/*.jpg
+/*.jpeg
+/draw_teddy.py
+/s
+
+# Playwright MCP
+.playwright-mcp/

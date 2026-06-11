@@ -17,7 +17,7 @@ router.get('/', (req: AuthRequest, res: Response) => {
 // Create pet
 router.post('/', (req: AuthRequest, res: Response) => {
   const { name, type } = req.body;
-  const validTypes = ['dog', 'cat', 'fox', 'turtle', 'rabbit', 'bird', 'dolphin', 'tiger', 'lion', 'red_panda'];
+  const validTypes = ['pikachu', 'charmander', 'squirtle'];
   if (!name || !type) {
     res.status(400).json({ error: '宠物名字和类型不能为空' });
     return;
@@ -156,6 +156,25 @@ router.put('/:id/equip', (req: AuthRequest, res: Response) => {
     ON CONFLICT(pet_id, slot) DO UPDATE SET item_id = excluded.item_id
   `).run(req.params.id, slot, item_id);
   res.json({ success: true, slot, item_id });
+});
+
+// Update display card
+router.patch('/:id/display-card', (req: AuthRequest, res: Response) => {
+  const db = getDb();
+  const pet = db.prepare('SELECT id FROM pets WHERE id = ? AND user_id = ?')
+    .get(req.params.id, req.user!.id);
+  if (!pet) { res.status(404).json({ error: '宠物不存在' }); return; }
+
+  const { card_id } = req.body;
+
+  if (card_id !== null) {
+    const owned = db.prepare('SELECT 1 FROM user_cards WHERE user_id = ? AND card_id = ?')
+      .get(req.user!.id, card_id);
+    if (!owned) { res.status(403).json({ error: '你还没有这张卡片' }); return; }
+  }
+
+  db.prepare('UPDATE pets SET display_card_id = ? WHERE id = ?').run(card_id ?? null, req.params.id);
+  res.json({ success: true, display_card_id: card_id ?? null });
 });
 
 // Get equipment state

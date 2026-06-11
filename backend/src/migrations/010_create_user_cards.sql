@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS user_cards (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id    INTEGER NOT NULL REFERENCES users(id),
+  card_id    TEXT NOT NULL,
+  count      INTEGER NOT NULL DEFAULT 1,
+  fragments  INTEGER NOT NULL DEFAULT 0,
+  obtained_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id, card_id)
+);

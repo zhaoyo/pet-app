@@ -16,4 +16,6 @@ export const petApi = {
     client.put(`/pets/${id}/equip`, { slot, item_id }),
   getEquipment: (id: number) => client.get(`/pets/${id}/equipment`),
   boostMood: (id: number, amount: number) => client.patch<{ mood: number }>(`/pets/${id}/mood`, { amount }),
+  setDisplayCard: (id: number, card_id: string | null) =>
+    client.patch(`/pets/${id}/display-card`, { card_id }),
 };

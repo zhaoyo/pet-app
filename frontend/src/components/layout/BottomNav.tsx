@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom';
 const TABS = [
   { to: '/', icon: '🏠', label: '首页' },
   { to: '/checkin', icon: '✅', label: '打卡' },
+  { to: '/draw', icon: '🎰', label: '抽卡' },
+  { to: '/cards', icon: '📖', label: '图鉴' },
   { to: '/shop', icon: '🛒', label: '商店' },
-  { to: '/inventory', icon: '🎒', label: '背包' },
-  { to: '/school', icon: '🎓', label: '学校' },
 ];
 
 export default function BottomNav() {

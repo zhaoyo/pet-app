@@ -1,31 +1,17 @@
-export type PetType = 'dog' | 'cat' | 'fox' | 'turtle' | 'rabbit' | 'bird' | 'dolphin' | 'tiger' | 'lion' | 'red_panda';
+export type PetType = 'pikachu' | 'charmander' | 'squirtle';
 
 export type EquipSlot = 'hat' | 'glasses' | 'top' | 'bottom' | 'shoes' | 'jewelry' | 'bag' | 'flower';
 
 export const PET_NAMES: Record<PetType, string> = {
-  dog: '小狗',
-  cat: '小猫',
-  fox: '小狐狸',
-  turtle: '小乌龟',
-  rabbit: '小兔子',
-  bird: '小鸟',
-  dolphin: '小海豚',
-  tiger: '小老虎',
-  lion: '小狮子',
-  red_panda: '小熊猫',
+  pikachu: '皮卡丘',
+  charmander: '小火龙',
+  squirtle: '小乌龟',
 };
 
 export const PET_EMOJIS: Record<PetType, string> = {
-  dog: '🐶',
-  cat: '🐱',
-  fox: '🦊',
-  turtle: '🐢',
-  rabbit: '🐰',
-  bird: '🐦',
-  dolphin: '🐬',
-  tiger: '🐯',
-  lion: '🦁',
-  red_panda: '🐼',
+  pikachu: '⚡',
+  charmander: '🔥',
+  squirtle: '💧',
 };
 
 export const SHOP_CATEGORIES = [

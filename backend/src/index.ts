@@ -14,6 +14,7 @@ import schoolRoutes from './routes/school';
 import roomRoutes from './routes/room';
 import uploadRoutes from './routes/upload';
 import adminRoutes from './routes/admin';
+import cardsRoutes from './routes/cards';
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use('/api/v1/school', schoolRoutes);
 app.use('/api/v1/room', roomRoutes);
 app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/cards', cardsRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
