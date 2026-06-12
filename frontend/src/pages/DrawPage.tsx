@@ -32,6 +32,7 @@ interface DrawResult {
   is_new: boolean;
   fragments_gained: number;
   remaining_points: number;
+  mood_bonus?: boolean;
 }
 
 export default function DrawPage() {
@@ -106,7 +107,7 @@ export default function DrawPage() {
       {result && card && !showAnim && (
         <div className="mb-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-3xl p-5 text-center border-2 border-yellow-200 shadow-lg">
           <p className="text-sm text-gray-500 mb-1">
-            {result.is_new ? '🎉 新卡！' : '已有重复 · 获得 💎5 碎片'}
+            {result.mood_bonus ? '🌟 心情加成！稀有度提升！' : result.is_new ? '🎉 新卡！' : '已有重复 · 获得 💎5 碎片'}
           </p>
           <div className="flex justify-center my-3">
             <img src={card.image} alt={card.name} className="w-32 h-32 object-contain drop-shadow-lg" />
