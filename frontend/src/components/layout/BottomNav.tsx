@@ -5,7 +5,6 @@ const TABS = [
   { to: '/checkin', icon: '✅', label: '打卡' },
   { to: '/draw', icon: '🎰', label: '抽卡' },
   { to: '/cards', icon: '📖', label: '图鉴' },
-  { to: '/shop', icon: '🛒', label: '商店' },
 ];
 
 export default function BottomNav() {

@@ -5,10 +5,6 @@ import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import CreatePetPage from './pages/CreatePetPage';
 import CheckinPage from './pages/CheckinPage';
-import ShopPage from './pages/ShopPage';
-import InventoryPage from './pages/InventoryPage';
-import SchoolPage from './pages/SchoolPage';
-import RoomPage from './pages/RoomPage';
 import CardGalleryPage from './pages/CardGalleryPage';
 import DrawPage from './pages/DrawPage';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -25,10 +21,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/create-pet" element={<CreatePetPage />} />
           <Route path="/checkin" element={<CheckinPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/inventory" element={<InventoryPage />} />
-          <Route path="/school" element={<SchoolPage />} />
-          <Route path="/room" element={<RoomPage />} />
           <Route path="/cards" element={<CardGalleryPage />} />
           <Route path="/draw" element={<DrawPage />} />
           <Route path="/admin" element={<AdminLayout />}>

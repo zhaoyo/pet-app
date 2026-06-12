@@ -18,8 +18,6 @@ export interface Pet {
   mood: number;
   created_at: string;
   display_card_id?: string | null;
-  equipment?: ShopItem[];
-  courses?: Course[];
 }
 
 export interface CheckinType {
@@ -49,36 +47,4 @@ export interface UserStreak {
   last_checkin: string;
   name: string;
   icon: string;
-}
-
-export interface ShopItem {
-  id: number;
-  name: string;
-  category: string;
-  slot?: string;
-  price: number;
-  description?: string;
-  svg_data?: string;
-  thumbnail?: string;
-  is_active: number;
-  owned?: number;
-}
-
-export interface Course {
-  id: number;
-  name: string;
-  icon: string;
-  price: number;
-  description?: string;
-  animation_key?: string;
-  learned?: number;
-}
-
-export interface RoomItem {
-  item_id: number;
-  x: number;
-  y: number;
-  z_index: number;
-  rotation?: number;
-  item?: ShopItem;
 }
