@@ -204,32 +204,40 @@ export default function HomePage() {
     <div className="p-4 max-w-lg mx-auto pb-28">
 
       {/* Pet switcher */}
-      {pets.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
-          {pets.map(p => (
-            <button
-              key={p.id}
-              onClick={() => setActivePet(p)}
-              className={`flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                activePet?.id === p.id
-                  ? 'bg-pink-400 text-white shadow-md'
-                  : 'bg-white text-gray-600 border border-pink-100'
-              }`}
-            >
-              <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                <img src={POKEMON_ARTWORK[p.type]} style={{ width: 24, height: 24, objectFit: 'contain' }} draggable={false} />
-              </div>
-              <span>{p.name}</span>
-            </button>
-          ))}
+      <div className="flex items-center gap-2 mb-4">
+        {pets.map(p => (
           <button
-            onClick={() => navigate('/create-pet')}
-            className="flex-shrink-0 px-3 py-2 rounded-full text-sm text-pink-400 border border-dashed border-pink-300"
+            key={p.id}
+            onClick={() => setActivePet(p)}
+            className="relative flex-shrink-0 transition-all duration-200"
+            title={p.name}
           >
-            {pets.length >= 3 ? `🥚×${user?.pet_eggs ?? 0} 添加` : '+ 添加'}
+            <img
+              src={POKEMON_ARTWORK[p.type]}
+              alt={p.name}
+              draggable={false}
+              style={{
+                width:   activePet?.id === p.id ? 52 : 36,
+                height:  activePet?.id === p.id ? 52 : 36,
+                objectFit: 'contain',
+                opacity: activePet?.id === p.id ? 1 : 0.4,
+                filter:  activePet?.id === p.id ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' : 'none',
+                transition: 'all 0.2s ease',
+              }}
+            />
+            {activePet?.id === p.id && (
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-pink-400 rounded-full" />
+            )}
           </button>
-        </div>
-      )}
+        ))}
+        <button
+          onClick={() => navigate('/create-pet')}
+          className="flex-shrink-0 w-9 h-9 rounded-full border-2 border-dashed border-pink-300 flex items-center justify-center text-pink-400 text-lg"
+          title="添加宠物"
+        >
+          {(user?.pet_eggs ?? 0) > 0 ? '🥚' : '+'}
+        </button>
+      </div>
 
       {/* Main pet card */}
       <div className="bg-white rounded-3xl shadow-lg overflow-hidden mb-4">
