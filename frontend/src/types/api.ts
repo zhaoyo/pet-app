@@ -17,7 +17,7 @@ export interface Pet {
   experience: number;
   mood: number;
   created_at: string;
-  display_card_id?: string;
+  display_card_id?: string | null;
   equipment?: ShopItem[];
   courses?: Course[];
 }
