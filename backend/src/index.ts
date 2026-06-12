@@ -11,6 +11,7 @@ import checkinRoutes from './routes/checkin';
 import uploadRoutes from './routes/upload';
 import adminRoutes from './routes/admin';
 import cardsRoutes from './routes/cards';
+import eggsRoutes from './routes/eggs';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/api/v1/checkin', checkinRoutes);
 app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/cards', cardsRoutes);
+app.use('/api/v1/eggs', eggsRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 

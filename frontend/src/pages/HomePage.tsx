@@ -216,7 +216,7 @@ export default function HomePage() {
             onClick={() => navigate('/create-pet')}
             className="flex-shrink-0 px-3 py-2 rounded-full text-sm text-pink-400 border border-dashed border-pink-300"
           >
-            + 添加
+            {pets.length >= 3 ? `🥚×${user?.pet_eggs ?? 0} 添加` : '+ 添加'}
           </button>
         </div>
       )}

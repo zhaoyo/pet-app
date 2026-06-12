@@ -28,6 +28,19 @@ router.post('/', (req: AuthRequest, res: Response) => {
   }
 
   const db = getDb();
+
+  const { count } = db.prepare('SELECT COUNT(*) as count FROM pets WHERE user_id = ?')
+    .get(req.user!.id) as { count: number };
+
+  if (count >= 3) {
+    const user = db.prepare('SELECT pet_eggs FROM users WHERE id = ?').get(req.user!.id) as any;
+    if (!user || user.pet_eggs <= 0) {
+      res.status(403).json({ error: '已达到免费宠物上限，需要宠物蛋才能领养更多宠物' });
+      return;
+    }
+    db.prepare('UPDATE users SET pet_eggs = pet_eggs - 1 WHERE id = ?').run(req.user!.id);
+  }
+
   const result = db.prepare(
     'INSERT INTO pets (user_id, name, type) VALUES (?, ?, ?)'
   ).run(req.user!.id, name, type);

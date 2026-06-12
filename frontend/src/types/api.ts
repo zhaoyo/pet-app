@@ -3,6 +3,7 @@ export interface User {
   username: string;
   role: string;
   points: number;
+  pet_eggs: number;
   avatar_url?: string;
   created_at: string;
 }
