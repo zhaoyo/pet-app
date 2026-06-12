@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download Charmander (#4) and Squirtle (#7) sprites from PokeAPI CDN,
+"""Download Pokemon sprites from PokeAPI CDN,
 mirroring the directory structure of the existing pikachu/ folder."""
 
 import os
@@ -12,6 +12,11 @@ SPRITES_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
 POKEMON = [
     {'name': 'charmander', 'num': 4},
     {'name': 'squirtle',   'num': 7},
+    {'name': 'bulbasaur',  'num': 1},
+    {'name': 'charizard',  'num': 6},
+    {'name': 'meowth',     'num': 52},
+    {'name': 'eevee',      'num': 133},
+    {'name': 'snorlax',    'num': 143},
 ]
 
 def download(url: str, dest: str):

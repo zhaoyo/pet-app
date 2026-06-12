@@ -17,7 +17,7 @@ router.get('/', (req: AuthRequest, res: Response) => {
 // Create pet
 router.post('/', (req: AuthRequest, res: Response) => {
   const { name, type } = req.body;
-  const validTypes = ['pikachu', 'charmander', 'squirtle'];
+  const validTypes = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'charizard', 'meowth', 'eevee', 'snorlax'];
   if (!name || !type) {
     res.status(400).json({ error: '宠物名字和类型不能为空' });
     return;

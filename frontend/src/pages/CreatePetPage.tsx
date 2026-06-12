@@ -4,12 +4,28 @@ import { petApi } from '../api/petApi';
 import { eggApi } from '../api/eggApi';
 import { usePetStore } from '../store/petStore';
 import { useAuthStore } from '../store/authStore';
-import { PET_NAMES, type PetType } from '../types/pet';
+import { PET_NAMES, PET_EMOJIS, type PetType } from '../types/pet';
 
 const POKEMON_ARTWORK: Record<PetType, string> = {
-  pikachu: '/pikachu/other/official-artwork/25.png',
-  charmander: '/charmander/other/official-artwork/4.png',
-  squirtle: '/squirtle/other/official-artwork/7.png',
+  pikachu:   '/pikachu/other/official-artwork/25.png',
+  charmander:'/charmander/other/official-artwork/4.png',
+  squirtle:  '/squirtle/other/official-artwork/7.png',
+  bulbasaur: '/bulbasaur/other/official-artwork/1.png',
+  charizard: '/charizard/other/official-artwork/6.png',
+  meowth:    '/meowth/other/official-artwork/52.png',
+  eevee:     '/eevee/other/official-artwork/133.png',
+  snorlax:   '/snorlax/other/official-artwork/143.png',
+};
+
+const POKEMON_TAGS: Record<PetType, string[]> = {
+  pikachu:   ['电', '御三家竞品', '吉祥物'],
+  charmander:['火', '御三家', '初代'],
+  squirtle:  ['水', '御三家', '初代'],
+  bulbasaur: ['草/毒', '御三家', '初代'],
+  charizard: ['火/飞行', '进化终态', '人气王'],
+  meowth:    ['一般', '火箭队', '经典'],
+  eevee:     ['一般', '8种进化', '粉丝最爱'],
+  snorlax:   ['一般', '睡觉萌物', '常青树'],
 };
 
 const PET_TYPES = Object.keys(PET_NAMES) as PetType[];
@@ -105,13 +121,13 @@ export default function CreatePetPage() {
       )}
 
       {/* Pet type grid */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-4 gap-3 mb-6">
         {PET_TYPES.map(type => (
           <button
             key={type}
             onClick={() => setSelectedType(type)}
             disabled={needsEgg && !hasEgg}
-            className={`flex flex-col items-center p-4 rounded-2xl border-2 transition-all ${
+            className={`flex flex-col items-center p-3 rounded-2xl border-2 transition-all ${
               selectedType === type
                 ? 'border-pink-400 bg-pink-50 scale-105 shadow-md'
                 : 'border-gray-100 bg-white hover:border-pink-200'
@@ -120,10 +136,16 @@ export default function CreatePetPage() {
             <img
               src={POKEMON_ARTWORK[type]}
               alt={PET_NAMES[type]}
-              style={{ width: 80, height: 80, objectFit: 'contain' }}
+              style={{ width: 64, height: 64, objectFit: 'contain' }}
               draggable={false}
             />
-            <span className="text-sm font-medium text-gray-700 mt-2">{PET_NAMES[type]}</span>
+            <span className="text-xs font-medium text-gray-700 mt-1">{PET_NAMES[type]}</span>
+            <span className="text-base">{PET_EMOJIS[type]}</span>
+            <div className="flex flex-wrap gap-0.5 justify-center mt-1">
+              {POKEMON_TAGS[type].slice(0, 1).map(tag => (
+                <span key={tag} className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{tag}</span>
+              ))}
+            </div>
           </button>
         ))}
       </div>
@@ -157,8 +179,13 @@ export default function CreatePetPage() {
             />
           </div>
           <p className="text-gray-600 text-sm font-medium">
-            {name || '(还没有名字)'} · {PET_NAMES[selectedType]}
+            {name || '(还没有名字)'} · {PET_NAMES[selectedType]} {PET_EMOJIS[selectedType]}
           </p>
+          <div className="flex flex-wrap gap-1 justify-center mt-2">
+            {POKEMON_TAGS[selectedType].map(tag => (
+              <span key={tag} className="text-xs bg-white text-gray-500 px-2 py-0.5 rounded-full border border-gray-200">{tag}</span>
+            ))}
+          </div>
         </div>
       )}
 

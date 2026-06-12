@@ -12,15 +12,25 @@ import { CARDS_BY_TYPE, isPokemonType } from '../data/allCards';
 import { RARITY_LABEL, RARITY_COLOR, type Rarity } from '../data/pikachuCards';
 
 const POKEMON_ARTWORK: Record<string, string> = {
-  pikachu: '/pikachu/other/official-artwork/25.png',
-  charmander: '/charmander/other/official-artwork/4.png',
-  squirtle: '/squirtle/other/official-artwork/7.png',
+  pikachu:   '/pikachu/other/official-artwork/25.png',
+  charmander:'/charmander/other/official-artwork/4.png',
+  squirtle:  '/squirtle/other/official-artwork/7.png',
+  bulbasaur: '/bulbasaur/other/official-artwork/1.png',
+  charizard: '/charizard/other/official-artwork/6.png',
+  meowth:    '/meowth/other/official-artwork/52.png',
+  eevee:     '/eevee/other/official-artwork/133.png',
+  snorlax:   '/snorlax/other/official-artwork/143.png',
 };
 
 const POKEMON_THEME: Record<string, string> = {
-  pikachu: 'from-yellow-100 to-orange-100',
-  charmander: 'from-orange-100 to-red-100',
-  squirtle: 'from-blue-100 to-cyan-100',
+  pikachu:   'from-yellow-100 to-orange-100',
+  charmander:'from-orange-100 to-red-100',
+  squirtle:  'from-blue-100 to-cyan-100',
+  bulbasaur: 'from-green-100 to-teal-100',
+  charizard: 'from-orange-100 to-amber-100',
+  meowth:    'from-yellow-100 to-amber-100',
+  eevee:     'from-amber-100 to-orange-100',
+  snorlax:   'from-slate-100 to-blue-100',
 };
 
 type PetState = 'sleeping' | 'active' | 'happy';
