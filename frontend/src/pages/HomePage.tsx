@@ -6,8 +6,6 @@ import { useAuthStore } from '../store/authStore';
 import { petApi } from '../api/petApi';
 import client from '../api/client';
 import ThemePicker from '../components/ui/ThemePicker';
-import PetCanvas from '../components/pet/PetCanvas';
-import { getPetBaseSvg } from '../components/pet/petSvgData';
 import type { Pet } from '../types/api';
 import { PET_NAMES, type PetType } from '../types/pet';
 import { CARDS_BY_TYPE, isPokemonType } from '../data/allCards';
