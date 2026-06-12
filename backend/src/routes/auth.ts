@@ -30,7 +30,7 @@ router.post('/register', (req: Request, res: Response) => {
 
   const hash = bcrypt.hashSync(password, 10);
   const result = db.prepare(
-    'INSERT INTO users (username, password) VALUES (?, ?)'
+    'INSERT INTO users (username, password, points) VALUES (?, ?, 1000)'
   ).run(username, hash);
 
   const user = db.prepare('SELECT id, username, role, points, avatar_url FROM users WHERE id = ?')
