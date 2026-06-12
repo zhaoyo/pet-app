@@ -389,6 +389,10 @@ export default function HomePage() {
         <div>
           <p className="text-white/80 text-xs">当前积分</p>
           <p className="text-white text-2xl font-bold">{user?.points?.toLocaleString() ?? 0}</p>
+          <p className="text-white/80 text-xs mt-1">
+            🐾 {pets.length} 只宠物
+            {(user?.pet_eggs ?? 0) > 0 && <span className="ml-2">🥚×{user!.pet_eggs}</span>}
+          </p>
         </div>
         <div className="text-right">
           <p className="text-white/80 text-xs">每日打卡可获得</p>
